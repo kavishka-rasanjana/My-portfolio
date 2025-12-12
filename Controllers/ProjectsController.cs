@@ -20,7 +20,7 @@ namespace MyPortfolioAPI.Controllers
                     ImageUrl = "/mobileapp.jpeg",
                     Tags = new List<string> { "Flutter", "Node.js", "MongoDB" },
                     // පහළ ලින්ක් වලට ඔයාගේ ඇත්ත Link දාන්න
-                    GitUrl = "https://github.com/username/e-fine-sl", 
+                    GitUrl = "https://github.com/kavishka-rasanjana/My-portfolio.git", 
                     DemoUrl = "" 
                 },
 
@@ -31,7 +31,7 @@ namespace MyPortfolioAPI.Controllers
                     Description = "Modern personal portfolio website featuring 3D animations and .NET backend.", 
                     ImageUrl = "/portfolio.png",
                     Tags = new List<string> { "C#", "SQL Server", "React" },
-                    GitUrl = "https://github.com/username/portfolio",
+                    GitUrl = "https://github.com/kavishka-rasanjana/My-portfolio.git",
                     DemoUrl = "#" // Live තියෙනවා නම් ලින්ක් එක දාන්න
                 },
 
@@ -42,7 +42,7 @@ namespace MyPortfolioAPI.Controllers
                     Description = "Desktop application for managing pet vaccination schedules.", 
                     ImageUrl = "/pet.jpg",
                     Tags = new List<string> { "Java", "MySQL" },
-                    GitUrl = "https://github.com/username/pet-vaccine",
+                    GitUrl = "https://github.com/kavishka-rasanjana/pet-reminder.git",
                     DemoUrl = ""
                 }
             };

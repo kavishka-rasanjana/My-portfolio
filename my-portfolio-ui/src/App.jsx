@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // AnimatePresence එකතු කළා
+import { motion, AnimatePresence } from "framer-motion"; 
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaLinkedinIn, FaGithub, FaExternalLinkAlt, FaCode } from "react-icons/fa";
-import { IoClose } from "react-icons/io5"; // Close button icon
+import { IoClose } from "react-icons/io5";
 
 // --- DNA Animation Component ---
 const DnaHelix = () => {
@@ -35,7 +35,7 @@ const DnaHelix = () => {
 
 function App() {
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null); // Click කරන Project එක මතක තියාගන්න
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:5024/api/projects")
@@ -107,8 +107,30 @@ function App() {
 
         <motion.div className="flex-1 flex justify-center mt-10 md:mt-0 relative z-10">
              <div className="absolute w-80 h-80 bg-red-600/20 rounded-full blur-[80px] -z-10"></div>
-          <motion.img src="/profile.png" alt="Kavishka" animate={{ y: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity }} className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-full border-2 border-red-900/50 shadow-2xl" onError={(e) => e.target.src = "https://via.placeholder.com/400x400"} />
+          
+          {/* 👇👇👇 මෙන්න මෙතන තමයි Profile Picture එක වෙනස් කරන්න ඕන 👇👇👇 */}
+          <motion.img 
+            src="/profile.jpeg" 
+            alt="Kavishka" 
+            animate={{ y: [0, -15, 0] }} 
+            transition={{ duration: 5, repeat: Infinity }} 
+            className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-full border-2 border-red-900/50 shadow-2xl" 
+            onError={(e) => e.target.src = "https://via.placeholder.com/400x400"} 
+          />
+          {/* 👆👆👆 src="/image-name.jpg" විදිහට ඔයාගේ ෆොටෝ එකේ නම දෙන්න 👆👆👆 */}
+
         </motion.div>
+      </section>
+
+      {/* --- About Section --- */}
+      <section id="about" className="py-20 relative z-10 bg-zinc-950">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-6 text-white">About <span className="text-red-600">Me</span></h2>
+          <p className="text-gray-400 leading-relaxed text-lg font-light">
+            I am a passionate software developer combining the logic of backend systems with the creativity of frontend design. 
+            Just like DNA strands intertwine to create life, I combine <b className="text-green-500">.NET Core</b> and <b className="text-red-500">React</b> to create living, breathing web applications.
+          </p>
+        </div>
       </section>
 
       {/* --- Projects Section --- */}
@@ -119,18 +141,17 @@ function App() {
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              layoutId={`project-${project.id}`} // Animation link for modal
-              onClick={() => setSelectedProject(project)} // Click කළාම Modal එකට යවනවා
+              onClick={() => setSelectedProject(project)}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-zinc-900 rounded-xl overflow-hidden hover:shadow-[0_0_20px_rgba(220,38,38,0.15)] transition-all border border-zinc-800 group cursor-pointer"
+              className="bg-zinc-900 rounded-xl overflow-hidden hover:shadow-[0_0_20px_rgba(220,38,38,0.15)] transition-all border border-zinc-800 group cursor-pointer relative"
             >
               <div className="h-52 overflow-hidden relative">
                 <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" onError={(e) => e.target.src = "https://via.placeholder.com/400x300"} />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                    <span className="text-white font-bold border border-red-500 px-6 py-2 rounded-full hover:bg-red-600 transition">View Details</span>
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center pointer-events-none">
+                    <span className="text-white font-bold border border-red-500 px-6 py-2 rounded-full hover:bg-red-600 transition">Click for Details</span>
                 </div>
               </div>
               <div className="p-6">
@@ -147,58 +168,52 @@ function App() {
         </div>
       </section>
 
-      {/* --- PROJECT DETAILS MODAL (POPUP) --- */}
+      {/* --- PROJECT MODAL --- */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
-            {/* Background Blur */}
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
               onClick={() => setSelectedProject(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/90 backdrop-blur-md"
             />
-            
-            {/* Modal Content */}
             <motion.div 
-              layoutId={`project-${selectedProject.id}`}
-              className="bg-zinc-900 w-full max-w-2xl rounded-2xl border border-zinc-700 shadow-2xl relative z-10 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-zinc-900 w-full max-w-2xl rounded-2xl border border-zinc-700 shadow-2xl relative z-[101] overflow-hidden max-h-[90vh] overflow-y-auto"
             >
-              {/* Close Button */}
               <button 
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:bg-red-600 transition z-20"
+                className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:bg-red-600 transition z-50 cursor-pointer"
               >
                 <IoClose size={24} />
               </button>
-
-              {/* Image */}
-              <div className="h-64 w-full overflow-hidden">
+              <div className="h-64 w-full overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent z-10"></div>
                 <img src={selectedProject.imageUrl} className="w-full h-full object-cover" onError={(e) => e.target.src = "https://via.placeholder.com/600x400"} />
               </div>
-
-              {/* Details */}
-              <div className="p-8">
-                <h2 className="text-3xl font-bold text-white mb-2">{selectedProject.title}</h2>
-                <div className="flex gap-2 mb-6">
+              <div className="p-8 relative z-20 -mt-10">
+                <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">{selectedProject.title}</h2>
+                <div className="flex gap-2 mb-6 flex-wrap">
                    {selectedProject.tags && selectedProject.tags.map((tag, i) => (
-                      <span key={i} className="text-xs font-bold text-gray-400 bg-zinc-800 px-2 py-1 rounded">#{tag}</span>
+                      <span key={i} className="text-xs font-bold text-gray-300 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-full">#{tag}</span>
                    ))}
                 </div>
-                
-                <p className="text-gray-300 leading-relaxed mb-8">
+                <p className="text-gray-300 leading-relaxed mb-8 text-lg font-light">
                   {selectedProject.description}
-                  {/* තව විස්තර backend එකෙන් එනවා නම් මෙතන දාන්න පුළුවන් */}
+                  <br /><br />
+                  This project demonstrates advanced concepts in software development, focusing on performance, scalability, and user experience.
                 </p>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   {selectedProject.gitUrl && (
-                    <a href={selectedProject.gitUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-white hover:text-black border border-zinc-700 rounded-lg font-bold transition">
+                    <a href={selectedProject.gitUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-white hover:text-black border border-zinc-700 rounded-lg font-bold transition">
                       <FaCode /> GitHub Repo
                     </a>
                   )}
                   {selectedProject.demoUrl && selectedProject.demoUrl !== "" && (
-                    <a href={selectedProject.demoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition shadow-lg shadow-red-600/20">
+                    <a href={selectedProject.demoUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white rounded-lg font-bold transition shadow-lg shadow-red-900/20">
                       <FaExternalLinkAlt /> Live Demo
                     </a>
                   )}
@@ -209,8 +224,20 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* --- Footer --- */}
-      <footer className="text-center py-6 text-gray-700 text-sm relative z-10 border-t border-zinc-900 bg-black">
+      {/* --- 5. Contact Section --- */}
+      <section id="contact" className="py-20 border-t border-zinc-900 relative z-10 bg-black">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-8 text-white">Get In <span className="text-red-600">Touch</span></h2>
+          <form className="space-y-4 text-left">
+            <input type="text" placeholder="Your Name" className="w-full p-4 bg-zinc-900 rounded-lg border border-zinc-800 focus:border-red-600 focus:outline-none text-white transition placeholder-gray-600" />
+            <input type="email" placeholder="Your Email" className="w-full p-4 bg-zinc-900 rounded-lg border border-zinc-800 focus:border-green-600 focus:outline-none text-white transition placeholder-gray-600" />
+            <textarea placeholder="Message" rows="4" className="w-full p-4 bg-zinc-900 rounded-lg border border-zinc-800 focus:border-red-600 focus:outline-none text-white transition placeholder-gray-600"></textarea>
+            <button className="w-full py-4 bg-gradient-to-r from-red-700 to-red-900 text-white rounded-lg font-bold text-lg hover:opacity-90 transition shadow-lg shadow-red-900/20">Send Message</button>
+          </form>
+        </div>
+      </section>
+
+      <footer className="text-center py-6 text-gray-700 text-sm relative z-10 border-t border-zinc-900">
         © 2024 Kavishka. All rights reserved.
       </footer>
     </div>
