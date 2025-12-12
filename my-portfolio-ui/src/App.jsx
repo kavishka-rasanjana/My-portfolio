@@ -38,7 +38,8 @@ function App() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5024/api/projects")
+    // මේ විදිහට වෙනස් කරන්න:
+fetch("https://my-portfolio-mpoq.onrender.com/api/projects")
       .then((res) => res.json())
       .then((data) => setProjects(data))
       .catch((err) => console.error("Error fetching projects:", err));
