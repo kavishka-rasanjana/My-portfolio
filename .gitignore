@@ -1,0 +1,9 @@
+# .NET dependencies
+bin/
+obj/
+.vs/
+
+# Node dependencies (React)
+node_modules/
+dist/
+.env
